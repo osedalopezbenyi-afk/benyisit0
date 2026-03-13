@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>benyisit0 | Kick Streaming</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter',sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      overflow:hidden;
+      color:#fff;
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.82)),
+        url("fondo-kick.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+
+    .loader{
+      position:fixed;
+      inset:0;
+      background:#05080c;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      z-index:9999;
+      animation:loaderOut .8s ease 1.8s forwards;
+    }
+
+    .loader img{
+      width:150px;
+      animation:loaderPulse 1.1s ease-in-out infinite alternate;
+      filter:drop-shadow(0 0 20px rgba(83,243,26,.25));
+    }
+
+    .loader span{
+      color:#53f31a;
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:2px;
+    }
+
+    .page{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+    }
+
+    .hero{
+      width:100%;
+      max-width:1300px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      align-items:center;
+      gap:30px;
+    }
+
+    .left{
+      position:relative;
+      z-index:3;
+      animation:fadeLeft 1s ease .2s both;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-bottom:22px;
+      padding:10px 18px;
+      border-radius:999px;
+      background:rgba(83,243,26,.10);
+      color:#53f31a;
+      border:1px solid rgba(83,243,26,.35);
+      font-size:14px;
+      font-weight:800;
+      box-shadow:0 0 20px rgba(83,243,26,.10);
+    }
+
+    .content-box{
+      position:relative;
+      max-width:720px;
+      padding:20px 0;
+    }
+
+    .big-logo{
+      position:absolute;
+      left:120px;
+      top:10px;
+      width:370px;
+      opacity:.12;
+      z-index:1;
+      animation:floatLogo 4s ease-in-out infinite;
+      filter:drop-shadow(0 0 18px rgba(83,243,26,.16));
+    }
+
+    h1{
+      position:relative;
+      z-index:2;
+      font-size:5.2rem;
+      line-height:.92;
+      font-weight:900;
+      letter-spacing:-2px;
+      margin-bottom:22px;
+    }
+
+    h1 span{
+      color:#53f31a;
+      text-shadow:0 0 18px rgba(83,243,26,.18);
+    }
+
+    p{
+      position:relative;
+      z-index:2;
+      color:#b8c5d8;
+      font-size:1.28rem;
+      line-height:1.45;
+      max-width:680px;
+      margin-bottom:34px;
+    }
+
+    .btn{
+      position:relative;
+      z-index:2;
+      display:inline-block;
+      background:#53f31a;
+      color:#000;
+      text-decoration:none;
+      padding:18px 42px;
+      border-radius:16px;
+      font-size:1.08rem;
+      font-weight:900;
+      box-shadow:0 0 30px rgba(83,243,26,.35);
+      transition:.25s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-4px) scale(1.02);
+      background:#7aff4d;
+    }
+
+    .right{
+      position:relative;
+      min-height:760px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      animation:fadeRight 1s ease .45s both;
+    }
+
+    .face-area{
+      position:relative;
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-end;
+    }
+
+    .green-glow{
+      position:absolute;
+      right:90px;
+      bottom:130px;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(83,243,26,.20) 0%, rgba(83,243,26,.05) 35%, transparent 70%);
+      filter:blur(18px);
+      animation:pulseGlow 3.5s ease-in-out infinite;
+    }
+
+    .face{
+      position:relative;
+      z-index:3;
+      width:620px;
+      max-width:50vw;
+      animation:faceIn 1.2s ease .9s both, floatFace 4.5s ease-in-out 2.2s infinite;
+      filter:
+        drop-shadow(0 25px 50px rgba(0,0,0,.70))
+        drop-shadow(0 0 18px rgba(83,243,26,.12));
+    }
+
+    .shadow-panel{
+      position:absolute;
+      right:20px;
+      bottom:35px;
+      width:430px;
+      height:520px;
+      border-radius:40px;
+      background:linear-gradient(180deg, rgba(10,14,22,.28), rgba(4,7,12,.45));
+      border:1px solid rgba(83,243,26,.08);
+      backdrop-filter:blur(6px);
+      z-index:1;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+
+    @keyframes loaderOut{
+      to{
+        opacity:0;
+        visibility:hidden;
+      }
+    }
+
+    @keyframes loaderPulse{
+      from{ transform:scale(1); }
+      to{ transform:scale(1.08); }
+    }
+
+    @keyframes fadeLeft{
+      from{
+        opacity:0;
+        transform:translateX(-60px);
+      }
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+
+    @keyframes fadeRight{
+      from{
+        opacity:0;
+        transform:translateX(70px);
+      }
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+
+    @keyframes faceIn{
+      from{
+        opacity:0;
+        transform:translateY(60px) scale(.92);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+    }
+
+    @keyframes floatFace{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-10px); }
+    }
+
+    @keyframes floatLogo{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-8px); }
+    }
+
+    @keyframes pulseGlow{
+      0%,100%{ transform:scale(1); opacity:.7; }
+      50%{ transform:scale(1.08); opacity:1; }
+    }
+
+    @media (max-width: 1100px){
+      body{
+        overflow:auto;
+      }
+
+      .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+
+      .left{
+        order:2;
+      }
+
+      .right{
+        order:1;
+        min-height:520px;
+      }
+
+      .content-box{
+        margin:0 auto;
+      }
+
+      .big-logo{
+        left:50%;
+        transform:translateX(-50%);
+        width:280px;
+      }
+
+      h1{
+        font-size:3.8rem;
+      }
+
+      p{
+        margin-left:auto;
+        margin-right:auto;
+      }
+
+      .face-area{
+        justify-content:center;
+      }
+
+      .face{
+        width:340px;
+        max-width:80vw;
+      }
+
+      .shadow-panel{
+        right:50%;
+        transform:translateX(50%);
+        width:300px;
+        height:360px;
+      }
+    }
+
+    @media (max-width: 680px){
+      .page{
+        padding:18px;
+      }
+
+      .badge{
+        font-size:12px;
+      }
+
+      h1{
+        font-size:2.9rem;
+      }
+
+      p{
+        font-size:1rem;
+      }
+
+      .btn{
+        width:100%;
+        max-width:320px;
+      }
+
+      .big-logo{
+        width:220px;
+        top:30px;
+      }
+
+      .right{
+        min-height:420px;
+      }
+
+      .face{
+        width:260px;
+      }
+
+      .shadow-panel{
+        width:230px;
+        height:300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loader">
+    <img src="logo-kick.png" alt="Kick">
+    <span>CARGANDO STREAM...</span>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+
+      <div class="left">
+        <div class="badge">● STREAMING ACTIVO</div>
+
+        <div class="content-box">
+          <img src="logo-kick.png" alt="Kick logo" class="big-logo">
+
+          <h1>
+            benyisit0<br>
+            <span>Streaming</span>
+          </h1>
+
+          <p>
+            Provinciano, streamer y creador de contenido. Gaming, 
+            risas y directos en vivo para toda la comunidad.
+          </p>
+
+          <a href="https://kick.com/benyisit0" target="_blank" class="btn">
+            VER STREAM →
+          </a>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="face-area">
+          <div class="green-glow"></div>
+          <div class="shadow-panel"></div>
+          <img src="cara.png" alt="benyisit0" class="face">
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
